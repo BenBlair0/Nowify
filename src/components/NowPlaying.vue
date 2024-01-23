@@ -6,14 +6,12 @@
       :class="getNowPlayingClass()"
     >
       <div class="now-playing__cover">
-        <transition name="fade">
-          <img
-            v-if="fade"
-            :src="player.trackAlbum.image"
-            :alt="player.trackTitle"
-            class="now-playing__image"
-          />
-        </transition>
+        <img
+          :src="player.trackAlbum.image"
+          :alt="player.trackTitle"
+          class="now-playing__image"
+          :class="{ fade: fade }" <!-- Conditionally apply fade class -->
+        />
       </div>
       <div class="now-playing__details">
         <h1 class="now-playing__track" v-text="player.trackTitle"></h1>
@@ -45,7 +43,7 @@ export default {
       playerData: this.getEmptyPlayer(),
       colourPalette: '',
       swatches: [],
-      fade: false
+      fade: false // Added fade variable
     }
   },
 
@@ -108,7 +106,12 @@ export default {
 
     getNowPlayingClass() {
       const playerClass = this.player.playing ? 'active' : 'idle';
-      return `now-playing--${playerClass}`;
+      const backgroundClass = this.player.playing ? '' : 'black-background';
+
+      // Set fade to true when playing to trigger fade-in effect
+      this.fade = this.player.playing;
+
+      return `now-playing--${playerClass} ${backgroundClass}`;
     },
 
     getAlbumColours() {
@@ -172,7 +175,6 @@ export default {
         return;
       }
 
-      this.fade = false; // Reset fade to trigger transition
       this.playerData = {
         playing: this.playerResponse.is_playing,
         trackArtists: this.playerResponse.item.artists.map(
@@ -185,10 +187,6 @@ export default {
           image: this.playerResponse.item.album.images[0].url
         }
       };
-
-      this.$nextTick(() => {
-        this.fade = true; // Trigger fade-in transition
-      });
     },
 
     handleAlbumPalette(palette) {
@@ -236,6 +234,9 @@ export default {
       this.$nextTick(() => {
         this.getAlbumColours();
       });
+
+      // Set fade to false to trigger the fade effect
+      this.fade = false;
     }
   }
 };
