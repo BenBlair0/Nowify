@@ -18,7 +18,7 @@
       </div>
     </div>
     <div v-else class="now-playing" :class="getNowPlayingClass()">
-      <h1 class="now-playing__idle-heading">No music is playing 😔</h1>
+    <!--  <h1 class="now-playing__idle-heading">No music is playing 😔</h1> -->
     </div>
   </div>
 </template>
@@ -303,4 +303,14 @@ export default {
 }
 </script>
 
-<style src="@/styles/components/now-playing.scss" lang="scss" scoped></style>
+<style src="@/styles/components/now-playing.scss" lang="scss" scoped>
+  /* Add styling for the black background when idle */
+  .now-playing--idle {
+    background-color: black;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+</style>
+
