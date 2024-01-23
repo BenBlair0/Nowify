@@ -18,7 +18,7 @@
       </div>
     </div>
     <div v-else class="now-playing" :class="getNowPlayingClass()">
-    <!--  <h1 class="now-playing__idle-heading">No music is playing 😔</h1> -->
+      <h1 class="now-playing__idle-heading">No music is playing 😔</h1>
     </div>
   </div>
 </template>
@@ -70,56 +70,54 @@ export default {
      * Make the network request to Spotify to
      * get the current played track.
      */
-     async getNowPlaying() {
-  let data = {};
+    async getNowPlaying() {
+      let data = {}
 
-  try {
-    const response = await fetch(
-      `${this.endpoints.base}/${this.endpoints.nowPlaying}`,
-      {
-        headers: {
-          Authorization: `Bearer ${this.auth.accessToken}`
+      try {
+        const response = await fetch(
+          `${this.endpoints.base}/${this.endpoints.nowPlaying}`,
+          {
+            headers: {
+              Authorization: `Bearer ${this.auth.accessToken}`
+            }
+          }
+        )
+
+        /**
+         * Fetch error.
+         */
+        if (!response.ok) {
+          throw new Error(`An error has occured: ${response.status}`)
         }
+
+        /**
+         * Spotify returns a 204 when no current device session is found.
+         * The connection was successful but there's no content to return.
+         */
+        if (response.status === 204) {
+          data = this.getEmptyPlayer()
+          this.playerData = data
+
+          this.$nextTick(() => {
+            this.$emit('spotifyTrackUpdated', data)
+          })
+
+          return
+        }
+
+        data = await response.json()
+        this.playerResponse = data
+      } catch (error) {
+        this.handleExpiredToken()
+
+        data = this.getEmptyPlayer()
+        this.playerData = data
+
+        this.$nextTick(() => {
+          this.$emit('spotifyTrackUpdated', data)
+        })
       }
-    );
-
-    if (!response.ok) {
-      throw new Error(`An error has occurred: ${response.status}`);
-    }
-
-    if (response.status === 204) {
-      data = this.getEmptyPlayer();
-      this.playerData = data;
-
-      // Set color palette to black when no music is playing
-      this.colourPalette = { text: '#000000', background: '#000000' };
-
-      this.$nextTick(() => {
-        this.$emit('spotifyTrackUpdated', data);
-      });
-
-      return;
-    }
-
-    data = await response.json();
-    this.playerResponse = data;
-
-    // Check if the song is paused, and set background color to black
-    if (!this.playerResponse.is_playing) {
-      this.colourPalette = { text: '#000000', background: '#000000' };
-    }
-  } catch (error) {
-    this.handleExpiredToken();
-
-    data = this.getEmptyPlayer();
-    this.playerData = data;
-
-    this.$nextTick(() => {
-      this.$emit('spotifyTrackUpdated', data);
-    });
-  }
-},
-
+    },
 
     /**
      * Get the Now Playing element class.
@@ -127,7 +125,8 @@ export default {
      */
     getNowPlayingClass() {
       const playerClass = this.player.playing ? 'active' : 'idle'
-      return `now-playing--${playerClass}`
+      const backgroundClass = this.player.playing ? '' : 'black-background'
+      return `now-playing--${playerClass} ${backgroundClass}`
     },
 
     /**
@@ -305,14 +304,4 @@ export default {
 }
 </script>
 
-<style src="@/styles/components/now-playing.scss" lang="scss" scoped>
-  /* Add styling for the black background when idle */
-  .now-playing--idle {
-    background-color: black;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-</style>
-
+<style src="@/styles/components/now-playing.scss" lang="scss" scoped></style>
