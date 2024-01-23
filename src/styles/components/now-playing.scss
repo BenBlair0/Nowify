@@ -4,7 +4,7 @@
  * Styles for the 'Now Playing' screen.
  *
  */
-.now-playing {
+ .now-playing {
   background-color: var(--colour-background-now-playing);
   color: var(--color-text-primary);
   display: flex;
@@ -29,6 +29,7 @@
     height: auto;
     max-width: 60vw;
     width: 100%;
+    transition: opacity 0.5s ease; /* Added transition for fade effect */
   }
 
   &__details {
@@ -70,5 +71,13 @@
   }
   &.black-background {
     background-color: #000; /* Black background color */
+    transition: background-color 0.5s ease; /* Added transition for fade effect */
+  }
+  
+  /* Added fade class to control opacity */
+  &.fade {
+    &__image {
+      opacity: 0;
+    }
   }
 }
