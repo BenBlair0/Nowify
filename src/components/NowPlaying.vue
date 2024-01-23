@@ -1,31 +1,32 @@
 <template>
   <div id="app">
-    <div
-      v-if="player.playing"
-      class="now-playing"
-      :class="getNowPlayingClass()"
-    >
-      <div class="now-playing__cover">
-        <img
-          :src="player.trackAlbum.image"
-          :alt="player.trackTitle"
-          class="now-playing__image"
-        />
+    <transition name="fade">
+      <div
+        v-if="player.playing"
+        class="now-playing"
+        :class="getNowPlayingClass()"
+      >
+        <div class="now-playing__cover">
+          <img
+            :src="player.trackAlbum.image"
+            :alt="player.trackTitle"
+            class="now-playing__image"
+          />
+        </div>
+        <div class="now-playing__details">
+          <h1 class="now-playing__track" v-text="player.trackTitle"></h1>
+          <h2 class="now-playing__artists" v-text="getTrackArtists"></h2>
+        </div>
       </div>
-      <div class="now-playing__details">
-        <h1 class="now-playing__track" v-text="player.trackTitle"></h1>
-        <h2 class="now-playing__artists" v-text="getTrackArtists"></h2>
+      <div v-else class="now-playing now-playing--idle" :class="getNowPlayingClass()">
+        <h1 class="now-playing__idle-heading">No music is playing 😔</h1>
       </div>
-    </div>
-    <div v-else class="now-playing now-playing--idle" :class="getNowPlayingClass()">
-      <h1 class="now-playing__idle-heading">No music is playing</h1>
-    </div>
+    </transition>
   </div>
 </template>
 
 <script>
 import * as Vibrant from 'node-vibrant'
-
 import props from '@/utils/props.js'
 
 export default {
@@ -48,10 +49,6 @@ export default {
   },
 
   computed: {
-    /**
-     * Return a comma-separated list of track artists.
-     * @return {String}
-     */
     getTrackArtists() {
       return this.player.trackArtists.join(', ')
     }
@@ -306,6 +303,13 @@ export default {
 <style src="@/styles/components/now-playing.scss" lang="scss" scoped></style>
 
 <style lang="scss" scoped>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+
 .now-playing--idle {
   background-color: black; /* Set your desired background color */
   /* Add any other styles you want for the idle state */
