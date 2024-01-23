@@ -175,6 +175,11 @@ export default {
         return;
       }
 
+      // Introduce a delay before setting the fade class
+      setTimeout(() => {
+        this.fade = true;
+      }, 500);
+
       this.playerData = {
         playing: this.playerResponse.is_playing,
         trackArtists: this.playerResponse.item.artists.map(
