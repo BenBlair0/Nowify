@@ -41,7 +41,6 @@ export default {
     return {
       pollPlaying: '',
       playerResponse: {},
-      backgroundColor: 'black',
       playerData: this.getEmptyPlayer(),
       colourPalette: '',
       swatches: []
@@ -187,7 +186,7 @@ export default {
 
       document.documentElement.style.setProperty(
         '--colour-background-now-playing',
-        this.backgroundColor
+        this.colourPalette.background
       )
     },
 
@@ -209,7 +208,6 @@ export default {
        */
       if (this.playerResponse.is_playing === false) {
         this.playerData = this.getEmptyPlayer()
-        this.backgroundColor = 'black'; // Set background to black when paused
 
         return
       }
