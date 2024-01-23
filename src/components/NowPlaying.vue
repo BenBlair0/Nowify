@@ -98,6 +98,8 @@ export default {
           data = this.getEmptyPlayer()
           this.playerData = data
 
+          this.colourPalette = { text: '#000000', background: '#000000' };
+
           this.$nextTick(() => {
             this.$emit('spotifyTrackUpdated', data)
           })
