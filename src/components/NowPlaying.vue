@@ -17,7 +17,7 @@
         <h2 class="now-playing__artists" v-text="getTrackArtists"></h2>
       </div>
     </div>
-    <div v-else class="now-playing" :class="getNowPlayingClass()">
+    <div v-else class="now-playing now-playing--idle" :class="getNowPlayingClass()">
       <h1 class="now-playing__idle-heading">No music is playing 😔</h1>
     </div>
   </div>
@@ -304,3 +304,10 @@ export default {
 </script>
 
 <style src="@/styles/components/now-playing.scss" lang="scss" scoped></style>
+
+<style lang="scss" scoped>
+.now-playing--idle {
+  background-color: black; /* Set your desired background color */
+  /* Add any other styles you want for the idle state */
+}
+</style>
