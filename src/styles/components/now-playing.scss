@@ -1,11 +1,9 @@
-/**
- * Component: Now Playing.
- * -----------------------------------------------------------------------------
- * Styles for the 'Now Playing' screen.
- *
- */
+/* styles/components/now-playing.scss */
+
 .now-playing {
-  background-color: var(--colour-background-now-playing);
+  transition: opacity 0.5s ease-in-out, background-color 0.5s ease-in-out;
+  opacity: 0;
+  background-color: black; /* Set the default background color */
   color: var(--color-text-primary);
   display: flex;
   flex-flow: column nowrap;
@@ -68,4 +66,8 @@
       text-align: left;
     }
   }
+}
+
+.now-playing.fade-in {
+  opacity: 1;
 }
