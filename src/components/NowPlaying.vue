@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" :class="{ 'black-screen': !player.playing }">
     <div
       v-if="player.playing"
       class="now-playing"
