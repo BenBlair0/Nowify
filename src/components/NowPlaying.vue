@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app"> :class="{ 'black-screen': !player.playing }">
     <div
       v-if="player.playing"
       class="now-playing"
@@ -22,8 +22,11 @@
     </div>
   </div>
 </template>
-
-<script>
+<style scoped>
+#app.black-screen {
+  background-color: black;
+}
+</script>
 import * as Vibrant from 'node-vibrant'
 
 import props from '@/utils/props.js'
