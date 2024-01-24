@@ -191,48 +191,39 @@ export default {
      * Handle newly updated Spotify Tracks.
      */
     handleNowPlaying() {
-      if (
-        this.playerResponse.error?.status === 401 ||
-        this.playerResponse.error?.status === 400
-      ) {
-        this.handleExpiredToken()
+  if (
+    this.playerResponse.error?.status === 401 ||
+    this.playerResponse.error?.status === 400
+  ) {
+    this.handleExpiredToken();
+    return;
+  }
 
-        return
+  /**
+   * Player is active, but user has paused.
+   */
+  if (this.playerResponse.is_playing === false) {
+    this.playerData = this.getEmptyPlayer();
+  } else {
+    /**
+     * The newly fetched track is the same as our stored one,
+     * but we want to update the DOM.
+     */
+    this.playerData = {
+      playing: this.playerResponse.is_playing,
+      trackArtists: this.playerResponse.item.artists.map(
+        artist => artist.name
+      ),
+      trackTitle: this.playerResponse.item.name,
+      trackId: this.playerResponse.item.id,
+      trackAlbum: {
+        title: this.playerResponse.item.album.name,
+        image: this.playerResponse.item.album.images[0].url
       }
-
-      /**
-       * Player is active, but user has paused.
-       */
-      if (this.playerResponse.is_playing === false) {
-        this.playerData = this.getEmptyPlayer()
-
-        return
-      }
-
-      /**
-       * The newly fetched track is the same as our stored
-       * one, we don't want to update the DOM yet.
-       */
-      if (this.playerResponse.item?.id === this.playerData.trackId) {
-        return
-      }
-
-      /**
-       * Store the current active track.
-       */
-      this.playerData = {
-        playing: this.playerResponse.is_playing,
-        trackArtists: this.playerResponse.item.artists.map(
-          artist => artist.name
-        ),
-        trackTitle: this.playerResponse.item.name,
-        trackId: this.playerResponse.item.id,
-        trackAlbum: {
-          title: this.playerResponse.item.album.name,
-          image: this.playerResponse.item.album.images[0].url
-        }
-      }
-    },
+    };
+  }
+}
+,
 
     /**
      * Handle newly stored colour palette:
