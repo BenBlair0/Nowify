@@ -17,8 +17,8 @@
         <h2 class="now-playing__artists" v-text="getTrackArtists"></h2>
       </div>
     </div>
-    <div v-else class="now-playing" :class="getNowPlayingClass()">
-      <h1 class="now-playing__idle-heading">No music is playing</h1>
+    <div v-else class="now-playing no-music-playing" :class="getNowPlayingClass()">
+      <h1 class="now-playing__idle-heading"></h1>
     </div>
   </div>
 </template>
