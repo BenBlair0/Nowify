@@ -1,24 +1,22 @@
 <template>
   <div id="app">
-    <div
-      v-if="player.playing"
-      class="now-playing"
-      :class="getNowPlayingClass()"
-    >
-      <div class="now-playing__cover">
-        <img
-          :src="player.trackAlbum.image"
-          :alt="player.trackTitle"
-          class="now-playing__image"
-        />
+    <div :class="getNowPlayingClass()">
+      <div v-if="player.playing" class="now-playing__content">
+        <div class="now-playing__cover">
+          <img
+            :src="player.trackAlbum.image"
+            :alt="player.trackTitle"
+            class="now-playing__image"
+          />
+        </div>
+        <div class="now-playing__details">
+          <h1 class="now-playing__track" v-text="player.trackTitle"></h1>
+          <h2 class="now-playing__artists" v-text="getTrackArtists"></h2>
+        </div>
       </div>
-      <div class="now-playing__details">
-        <h1 class="now-playing__track" v-text="player.trackTitle"></h1>
-        <h2 class="now-playing__artists" v-text="getTrackArtists"></h2>
+      <div v-else class="now-playing__idle">
+        <h1 class="now-playing__idle-heading">No music is playing 😔</h1>
       </div>
-    </div>
-    <div v-else class="now-playing" :class="getNowPlayingClass()">
-      <h1 class="now-playing__idle-heading">No music is playing 😔</h1>
     </div>
   </div>
 </template>
@@ -49,8 +47,7 @@ export default {
       return this.player.trackArtists.join(', ')
     },
     getNowPlayingClass() {
-      const playerClass = this.player.playing ? 'active' : 'idle'
-      return `now-playing--${playerClass}`
+      return this.player.playing ? 'playing' : 'paused';
     }
   },
   mounted() {
@@ -230,4 +227,20 @@ body.playing {
 body.paused {
   background-color: black;
 }
+
+.now-playing__content,
+.now-playing__idle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+.now-playing__idle {
+  background-color: black; /* Set background color for idle state */
+}
+
+/* Add any other styles you need for now-playing and now-playing__idle */
 </style>
