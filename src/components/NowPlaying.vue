@@ -207,7 +207,12 @@ export default {
        * Player is active, but user has paused.
        */
       if (this.playerResponse.is_playing === false) {
-        this.playerData = this.getEmptyPlayer()
+        this.playerData = this.getEmptyPlayer();
+
+    document.documentElement.style.setProperty(
+      '--colour-background-now-playing',
+      '#000000'
+    );
 
         return
       }
