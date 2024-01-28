@@ -18,7 +18,7 @@
       </div>
     </div>
     <div v-else class="now-playing" :class="getNowPlayingClass()">
-      <h1 class="now-playing__idle-heading">getCurrentTime</h1>
+      <h1 class="now-playing__idle-heading">"getCurrentTime"</h1>
     </div>
   
     <!-- Overlay for displaying time when the screen is black -->
