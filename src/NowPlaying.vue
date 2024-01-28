@@ -18,7 +18,7 @@
       </div>
     </div>
     <div v-else class="now-playing" :class="getNowPlayingClass()">
-      <h1 class="now-playing__idle-heading">Hello World</h1>
+      <h1 class="now-playing__idle-heading">No music is playing 😔</h1>
     </div>
   </div>
 </template>
@@ -207,12 +207,7 @@ export default {
        * Player is active, but user has paused.
        */
       if (this.playerResponse.is_playing === false) {
-        this.playerData = this.getEmptyPlayer();
-
-    document.documentElement.style.setProperty(
-      '--colour-background-now-playing',
-      '#000000'
-    );
+        this.playerData = this.getEmptyPlayer()
 
         return
       }
