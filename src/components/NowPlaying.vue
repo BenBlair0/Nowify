@@ -323,7 +323,7 @@ export default {
 </script>
 
 <style src="@/styles/components/now-playing.scss" lang="scss" scoped>
-/* Add styles for the time overlay */
+  
 .time-overlay {
   position: fixed;
   top: 0;
@@ -344,4 +344,4 @@ export default {
 }
 
 /* Add your existing styles for the NowPlaying component */
-</style>
+<style src="@/styles/components/now-playing.scss" lang="scss" scoped>
