@@ -24,9 +24,23 @@
 </template>
 
 <script>
-import * as Vibrant from 'node-vibrant'
+ </div>
+    <div v-else class="now-playing" :class="getNowPlayingClass()">
+      <h1 class="now-playing__idle-heading"></h1>
+    </div>
 
+    <!-- Overlay for displaying time when the screen is black -->
+    <div v-if="!player.playing" class="time-overlay">
+      <h1 class="time" v-text="getCurrentTime"></h1>
+    </div>
+  </div>
+</template>
+
+<script>
+import * as Vibrant from 'node-vibrant'
 import props from '@/utils/props.js'
+
+export default {
 
 export default {
   name: 'NowPlaying',
@@ -308,4 +322,26 @@ export default {
 }
 </script>
 
-<style src="@/styles/components/now-playing.scss" lang="scss" scoped></style>
+<style src="@/styles/components/now-playing.scss" lang="scss" scoped>
+/* Add styles for the time overlay */
+.time-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000; /* Black background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff; /* White text */
+  font-size: 2em;
+  z-index: 999; /* Ensure it's on top of other elements */
+}
+
+.time {
+  margin: 0;
+}
+
+/* Add your existing styles for the NowPlaying component */
+</style>
