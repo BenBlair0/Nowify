@@ -18,7 +18,7 @@
       </div>
     </div>
     <div v-else class="now-playing" :class="getNowPlayingClass()">
-      <h1 class="now-playing__idle-heading">No music is playing 😔</h1>
+      <h1 class="now-playing__idle-heading">{{ getCurrentTimeInPST }}</h1>
     </div>
   </div>
 </template>
@@ -54,6 +54,31 @@ export default {
      */
     getTrackArtists() {
       return this.player.trackArtists.join(', ')
+    },
+
+    /**
+     * Return the current time in Pacific Standard Time (PST).
+     * @return {String}
+     */
+    getCurrentTimeInPST() {
+      const options = {
+        timeZone: 'America/Los_Angeles',
+        hour12: true,
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric'
+      };
+
+      return new Date().toLocaleString('en-US', options);
+    },
+
+    /**
+     * Get the Now Playing element class.
+     * @return {String}
+     */
+    getNowPlayingClass() {
+      const playerClass = this.player.playing ? 'active' : 'idle'
+      return `now-playing--${playerClass}`
     }
   },
 
@@ -207,7 +232,12 @@ export default {
        * Player is active, but user has paused.
        */
       if (this.playerResponse.is_playing === false) {
-        this.playerData = this.getEmptyPlayer()
+        this.playerData = this.getEmptyPlayer();
+
+    document.documentElement.style.setProperty(
+      '--colour-background-now-playing',
+      '#000000'
+    );
 
         return
       }
